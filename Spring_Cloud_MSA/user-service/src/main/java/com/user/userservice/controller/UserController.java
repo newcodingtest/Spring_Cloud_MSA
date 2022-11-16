@@ -18,10 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Api(tags = {" 사용자 정보를 관리하는 Controller"})
 @RestController
-@RequestMapping("/")
+@RequestMapping("/user-service")
 public class UserController {
 
     private Environment env;
@@ -38,7 +40,7 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status(){
-        return "It's working in user-service";
+        return String.format("It's working in user-service on Port %s",env.getProperty("local.server.port"));
     }
 
     @GetMapping("/welcome")
@@ -62,6 +64,23 @@ public class UserController {
 
        return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
 
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers(){
+
+        List<ResponseUser> users = userService.getUserByAll();
+
+        return ResponseEntity.status(HttpStatus.OK).body(users);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUsers(@PathVariable("userId") String userId){
+        UserDto userDto = userService.getUserByUserId(userId);
+
+        ResponseUser user = new ModelMapper().map(userDto,ResponseUser.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
 

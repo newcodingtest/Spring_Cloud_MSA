@@ -31,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http)throws Exception{
         http.csrf().disable();
         http.authorizeHttpRequests().antMatchers("/users/**").permitAll();
-
+        http.authorizeHttpRequests().antMatchers("/user-service/**").permitAll();
         //h2-console 의 프레임문제 무시
         http.headers().frameOptions().disable();
 
