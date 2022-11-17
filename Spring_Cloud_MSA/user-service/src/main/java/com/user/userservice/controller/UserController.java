@@ -66,6 +66,7 @@ public class UserController {
 
     }
 
+    @ApiOperation(value = "유저 리스트 조회")
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getUsers(){
 
@@ -74,6 +75,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
+    @ApiOperation(value = "아이디로 유저조회")
     @GetMapping("/users/{userId}")
     public ResponseEntity<ResponseUser> getUsers(@PathVariable("userId") String userId){
         UserDto userDto = userService.getUserByUserId(userId);
