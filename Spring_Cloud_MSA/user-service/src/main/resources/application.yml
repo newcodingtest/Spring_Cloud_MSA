@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: user-service
+  main:
+    allow-circular-references: true
+
   h2:
     console:
       enabled: true
@@ -17,7 +20,8 @@ spring:
 #   password: 1234
 eureka:
   instance:
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    #instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${random.value}}
   client:
     register-with-eureka: true
     fetch-registry: true

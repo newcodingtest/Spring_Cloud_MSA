@@ -23,11 +23,9 @@ import java.util.List;
 
 @Api(tags = {" 사용자 정보를 관리하는 Controller"})
 @RestController
-@RequestMapping("/user-service")
+@RequestMapping("/")
 public class UserController {
-
     private Environment env;
-
     private UserService userService;
     
     @Autowired
