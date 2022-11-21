@@ -29,3 +29,11 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 
 testMessage: hi test message
+
+logging:
+  level:
+    com.user.userservice: DEBUG
+
+token:
+  expiration_time: 86400000
+  secret: user_token

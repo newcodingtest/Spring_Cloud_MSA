@@ -2,6 +2,7 @@ package com.user.userservice.security;
 
 import com.user.userservice.service.UserDetailsServiceImpl;
 import com.user.userservice.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -18,22 +19,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.Filter;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private UserDetailsServiceImpl userDetailsService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    private Environment env;
+    private final UserService userService;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final Environment env;
 
-    public SecurityConfig(UserDetailsServiceImpl userService,
-                          BCryptPasswordEncoder bCryptPasswordEncoder,
-                          Environment env){
-        this.userDetailsService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.env = env;
-
-    }
 
     private static final String[] PERMIT_URL_ARRAY = {
             /* swagger v2 */
@@ -57,7 +52,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/error/**").permitAll()
                 .antMatchers("/**")
-                .hasIpAddress("192.168.0.2")
+                .hasIpAddress("192.168.0.79")
                 .and()
                 .authenticationManager(authenticationManager)
                 .addFilter(getAuthenticationFilter(authenticationManager));
@@ -79,7 +74,7 @@ public class SecurityConfig {
     }
 
     private AuthenticationFilter getAuthenticationFilter(AuthenticationManager authenticationManager) throws Exception  {
-        return new AuthenticationFilter(authenticationManager, userDetailsService, env);
+        return new AuthenticationFilter(authenticationManager, userService, env);
     }
 
     
